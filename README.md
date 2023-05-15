@@ -46,4 +46,4 @@ In the same public subnet and VPC,
 Are reachable to each other - e.g. via the ping command
 Are accessible remotely by SSH
 All resources created are tagged
-key=project ,value=wecloud
+key=project , value=wecloud
