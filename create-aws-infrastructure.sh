@@ -48,7 +48,8 @@ apt-get install -y python3.10
 apt-get install -y nodejs=18.0
 apt-get install -y openjdk-11-jdk
 apt-get install -y docker.io
-EOF)
+EOF
+)
 echo "Master node 1 launched with ID: $master_instance_id"
 
 # Launch Worker node 1
@@ -59,7 +60,8 @@ apt-get install -y python3.10
 apt-get install -y nodejs=18.0
 apt-get install -y openjdk-11-jdk
 apt-get install -y docker.io
-EOF)
+EOF
+)
 echo "Worker node 1 launched with ID: $worker1_instance_id"
 
 # Launch Worker node 2
@@ -70,7 +72,8 @@ apt-get install -y python3.10
 apt-get install -y nodejs=18.0
 apt-get install -y openjdk-11-jdk
 apt-get install -y docker.io
-EOF)
+EOF
+)
 echo "Worker node 2 launched with ID: $worker2_instance_id"
 
 # Wait for instances to be running
