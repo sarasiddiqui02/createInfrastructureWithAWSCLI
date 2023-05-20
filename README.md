@@ -1,4 +1,4 @@
-# linuxServersonAWSScript
+# createAwsInfrastructurewithAWSCLI
 
 bash shell script(s) that leverages the AWS CLI tool to create the following cloud architecture and set up:
 All resources to be in us-east-1
