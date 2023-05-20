@@ -41,30 +41,36 @@ aws ec2 authorize-security-group-ingress --group-id $security_group_id --protoco
 echo "SSH inbound rule added to security group"
 
 # Launch Master node 1
-master_instance_id=$(aws ec2 run-instances --image-id ami-0e58f89e91723af4c --instance-type t2.small --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=master-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data '#!/bin/bash
+master_instance_id=$(aws ec2 run-instances --image-id ami-0e58f89e91723af4c --instance-type t2.small --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=master-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data <<EOF
+#!/bin/bash
 apt-get update
 apt-get install -y python3.10
 apt-get install -y nodejs=18.0
 apt-get install -y openjdk-11-jdk
-apt-get install -y docker.io')
+apt-get install -y docker.io
+EOF)
 echo "Master node 1 launched with ID: $master_instance_id"
 
 # Launch Worker node 1
-worker1_instance_id=$(aws ec2 run-instances --image-id ami-0e58f89e91723af4c --instance-type t2.micro --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data '#!/bin/bash
+worker1_instance_id=$(aws ec2 run-instances --image-id ami-0e58f89e91723af4c --instance-type t2.micro --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data <<EOF
+#!/bin/bash
 apt-get update
 apt-get install -y python3.10
 apt-get install -y nodejs=18.0
 apt-get install -y openjdk-11-jdk
-apt-get install -y docker.io')
+apt-get install -y docker.io
+EOF)
 echo "Worker node 1 launched with ID: $worker1_instance_id"
 
 # Launch Worker node 2
-worker2_instance_id=$(aws ec2 run-instances --image-id ami-0e58f89e91723af4c --instance-type t2.micro --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-02},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data '#!/bin/bash
+worker2_instance_id=$(aws ec2 run-instances --image-id ami-0e58f89e91723af4c --instance-type t2.micro --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-02},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data <<EOF
+#!/bin/bash
 apt-get update
 apt-get install -y python3.10
 apt-get install -y nodejs=18.0
 apt-get install -y openjdk-11-jdk
-apt-get install -y docker.io')
+apt-get install -y docker.io
+EOF)
 echo "Worker node 2 launched with ID: $worker2_instance_id"
 
 # Wait for instances to be running
