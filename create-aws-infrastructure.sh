@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Create key pair
+key_name="project1-key-pair"
+aws ec2 create-key-pair --key-name $key_name --query 'KeyMaterial' --output text > $key_name.pem
+chmod 400 $key_name.pem
+echo "Key pair created: $key_name.pem"
+
 # Create VPC
 vpc_id=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=project1VPC}]' --query 'Vpc.VpcId' --output text --region us-east-1)
 echo "VPC created with ID: $vpc_id"
@@ -41,7 +47,7 @@ aws ec2 authorize-security-group-ingress --group-id $security_group_id --protoco
 echo "SSH inbound rule added to security group"
 
 # Launch Master node 1
-master_instance_id=$(aws ec2 run-instances --image-id ami-0261755bbcb8c4a84 --instance-type t2.small --key-name project1-key-pair --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=master-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data "$(cat <<EOF
+master_instance_id=$(aws ec2 run-instances --image-id ami-0261755bbcb8c4a84 --instance-type t2.small --key-name $key_name --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=master-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data "$(cat <<EOF
 #!/bin/bash
 apt-get update
 apt-get install -y python3.10
@@ -54,7 +60,7 @@ EOF
 echo "Master node 1 launched with ID: $master_instance_id"
 
 # Launch Worker node 1
-worker1_instance_id=$(aws ec2 run-instances --image-id ami-0261755bbcb8c4a84 --instance-type t2.micro --key-name project1-key-pair --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data "$(cat <<EOF
+worker1_instance_id=$(aws ec2 run-instances --image-id ami-0261755bbcb8c4a84 --instance-type t2.micro --key-name $key_name --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-01},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data "$(cat <<EOF
 #!/bin/bash
 apt-get update
 apt-get install -y python3.10
@@ -67,7 +73,7 @@ EOF
 echo "Worker node 1 launched with ID: $worker1_instance_id"
 
 # Launch Worker node 2
-worker2_instance_id=$(aws ec2 run-instances --image-id ami-0261755bbcb8c4a84 --instance-type t2.micro --key-name project1-key-pair --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-02},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data "$(cat <<EOF
+worker2_instance_id=$(aws ec2 run-instances --image-id ami-0261755bbcb8c4a84 --instance-type t2.micro --key-name $key_name --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-02},{Key=project,Value=wecloud}]' --subnet-id $subnet_id --security-group-ids $security_group_id --region us-east-1 --user-data "$(cat <<EOF
 #!/bin/bash
 apt-get update
 apt-get install -y python3.10
