@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create VPC
-vpc_id=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --query 'Vpc.VpcId' --output text --region us-east-1)
+vpc_id=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=project1VPC}]' --query 'Vpc.VpcId' --output text --region us-east-1)
 echo "VPC created with ID: $vpc_id"
 
 # Create internet gateway
