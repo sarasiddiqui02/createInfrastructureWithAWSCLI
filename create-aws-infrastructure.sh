@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create key pair
-key_name="project1-key-pair"
+key_name="project-key-pair"
 aws ec2 create-key-pair --key-name $key_name --query 'KeyMaterial' --output text > $key_name.pem
 chmod 400 $key_name.pem
 echo "Key pair created: $key_name.pem"
